@@ -1,3 +1,5 @@
+# java-patterns
+
 This folder contains libraries copied from the "java-patterns" project.
 It is managed by the CheckStyle-IDEA IDE plugin.
 Do not modify this folder while the IDE is running.
