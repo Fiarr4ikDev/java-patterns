@@ -5,4 +5,4 @@ package patterns.builder;
     */
     public enum ProductType {
             FOOD, CLOTHES
-        }
+    }
