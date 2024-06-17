@@ -1,5 +1,8 @@
 package patterns.facade;
 
+    /**
+     * Класс с полем {@link BugTracker#activeSprint} которое меняется с помощью методов {@link BugTracker#startSprint()} и {@link BugTracker#finishSpring()}.
+     */
     public class BugTracker {
         private boolean activeSprint;
         public boolean isActiveSprint() {
