@@ -11,13 +11,13 @@ import org.apache.logging.log4j.Logger;
  * <p> Это позволяет динамически добавлять обьекту новые обязанности без использования сложной логики. </p>
  */
     public final class Task {
-        public static Logger logger = LogManager.getLogger(Task.class);
+        private static final Logger LOGGER = LogManager.getLogger(Task.class);
         private Task() {
         }
 
         public static void main(String[] args) {
             Developer developer = new JavaTeamLead(new SeniorJavaDeveloper(new JavaDeveloper()));
 
-            logger.info(developer.makeJob());
+            LOGGER.info(developer.makeJob());
         }
     }

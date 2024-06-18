@@ -1,34 +1,29 @@
 package patterns.decorator;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
-class TaskTest {
+    /**
+     * Тест который проверяет что выполнение метода {@link Developer#makeJob()} выполняется до конца и отдаёт в логи нужный вывод.
+     */
+    class TaskTest {
+        @Test
+        void testWriteCodeLogsCorrectMessage() {
+            MockedStatic<LogManager> integerMock = Mockito.mockStatic(LogManager.class);
+            Logger logger = spy(Logger.class);
+            integerMock.when(() -> LogManager.getLogger(any(Class.class))).thenReturn(logger);
 
-    @Mock
-    private Logger logger;
+            Developer developer = new JavaTeamLead(new SeniorJavaDeveloper(new JavaDeveloper()));
+            logger.info(developer.makeJob());
 
-    @Captor
-    private ArgumentCaptor<String> captor;
-
-    @Test
-    void testWriteCodeLogsCorrectMessage() {
-        Developer developer = new JavaTeamLead(new SeniorJavaDeveloper(new JavaDeveloper()));
-        Task.logger = logger;
-
-        logger.info(developer.makeJob());
-
-        verify(logger).info(captor.capture());
-        assertEquals("Write java code. Make code review. Send week report to customer. ", captor.getValue());
+            verify(logger).info("Write java code. Make code review. Send week report to customer. ");
+        }
     }
-}

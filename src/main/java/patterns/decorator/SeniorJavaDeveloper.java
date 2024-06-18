@@ -1,5 +1,8 @@
 package patterns.decorator;
 
+/**
+ * Класс разработчика расширяющий класс декоратор {@link DeveloperDecorator} для добавления ролей разработчику без сложной логики.
+ */
     public class SeniorJavaDeveloper extends DeveloperDecorator {
 
         public SeniorJavaDeveloper(Developer developer) {

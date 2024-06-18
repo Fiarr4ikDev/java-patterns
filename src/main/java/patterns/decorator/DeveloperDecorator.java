@@ -1,5 +1,8 @@
 package patterns.decorator;
 
+    /**
+     * Главный класс для реализации паттерна декоратор позволяющий создавать новые роли разработчиков без использования сложной логики.
+     */
     public class DeveloperDecorator implements Developer {
         private Developer developer;
 
