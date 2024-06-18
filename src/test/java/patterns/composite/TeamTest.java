@@ -1,53 +1,37 @@
 package patterns.composite;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-    /**
-     * Тест проверяющий что всё сделано и команда сделала программу
-     */
-    @ExtendWith(MockitoExtension.class)
-    class TeamTest {
-        @Mock
-        private Logger logger;
+/**
+ * Тест проверяющий, что команда закончила работу и метод {@link Team#writeCode()} выполнился до конца.
+ */
+class TeamTest {
 
-        @InjectMocks
-        private Team team;
+    @Test
+    void testWriteCodeLogsCorrectMessage() {
+        MockedStatic<LogManager> integerMock = Mockito.mockStatic(LogManager.class);
+        Logger logger = spy(Logger.class);
+        integerMock.when(() -> LogManager.getLogger(any(Class.class))).thenReturn(logger);
+        Team team = new Team();
 
-        @Captor
-        private ArgumentCaptor<String> captor;
+        Developer firstJavaDev = new JavaDeveloper();
+        Developer secondJavaDev = new JavaDeveloper();
+        Developer firstCppDev = new CppDeveloper();
 
-        @BeforeEach
-        public void setUp() {
-            Team team = new Team();
+        team.addDeveloper(firstJavaDev);
+        team.addDeveloper(secondJavaDev);
+        team.addDeveloper(firstCppDev);
 
-            Developer firstJavaDev = new JavaDeveloper();
-            Developer secondJavaDev = new JavaDeveloper();
-            Developer firstCppDev = new CppDeveloper();
-
-            team.addDeveloper(firstJavaDev);
-            team.addDeveloper(secondJavaDev);
-            team.addDeveloper(firstCppDev);
-        }
-
-        @Test
-        void testWriteCodeLogsCorrectMessage() {
-
-            Team.logger = logger;
-
-            team.writeCode();
-
-            verify(logger).info(captor.capture());
-            assertEquals("Команда написала проект", captor.getValue());
-        }
+        team.writeCode();
+        verify(logger).info("Команда написала проект");
     }
+}
