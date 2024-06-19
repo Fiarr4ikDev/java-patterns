@@ -2,6 +2,7 @@ package patterns.iterator;
 
     /**
      * Интерфейс итератор с двумя методами.
+     * @author Денис Дементьев
      */
     public interface Iterator {
         /**
